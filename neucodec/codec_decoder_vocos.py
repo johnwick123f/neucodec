@@ -364,7 +364,7 @@ class CodecDecoderVocos(nn.Module):
         self.head = ISTFTHead(
             dim=hidden_dim,
             n_fft=self.hop_length * 4,
-            hop_length=self.hop_length,
+            hop_length=self.hop_length * 4,
             padding="same",
         )
 
