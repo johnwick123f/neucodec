@@ -376,7 +376,7 @@ class DistillCodecEncoder(nn.Module):
         self.en_encoder = CompressedLocalEncoderWithCache(
             feature_dim=512,
             local_window_size=300,
-            compress_rate=5,
+            compress_rate=20,
             cache_size=0,
             depth=5,
             use_dynamic_pos_bias=True,
