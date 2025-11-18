@@ -37,6 +37,7 @@ class NeuCodec(
         self.generator = CodecDecoderVocos(hop_length=hop_length)
         self.fc_prior = nn.Linear(2048, 2048)
         self.fc_post_a = nn.Linear(2048, 1024)
+        self.avg_pooler = nn.AvgPool1d(4, stride=4)
 
     @property
     def device(self):
@@ -206,6 +207,7 @@ class DistillNeuCodec(NeuCodec):
         )
         self.fc_sq_prior = nn.Linear(512, 768)
         self.fc_post_a = nn.Linear(2048, 1024)
+        self.avg_pooler = nn.AvgPool1d(4, stride=4)
         
     def encode_code(self, audio_or_path:  torch.Tensor | Path | str) -> torch.Tensor:
         """
@@ -237,6 +239,7 @@ class DistillNeuCodec(NeuCodec):
             semantic_features
         ).last_hidden_state.transpose(1, 2)
         semantic_target = self.SemanticEncoder_module(semantic_target)
+        semantic_target = self.avg_pooler(semantic_target)
 
         if fsq_emb.shape[-1] != semantic_target.shape[-1]:
             min_len = min(fsq_emb.shape[-1], semantic_target.shape[-1])
