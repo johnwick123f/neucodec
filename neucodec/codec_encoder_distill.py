@@ -369,7 +369,7 @@ class DistillCodecEncoder(nn.Module):
         super().__init__()
         self.encoder = Encoder(
             feature_dim=512,
-            strides=(4, 4, 4, 4),
+            strides=(4, 4, 4, 16),
             depths=(1, 1, 1, 2),
             dims=(32, 64, 128, 256),
         )
